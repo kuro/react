@@ -6,9 +6,9 @@ repositories.remote << "http://www.ibiblio.org/maven2/"
 layout = Layout.new
 layout[:source, :main, :java] = 'src'
 
-define 'FyreWare', :layout => layout do
+define 'React', :layout => layout do
   compile.with Dir["lib/*.jar"]
   project.version = VERSION_NB
-  run.using :main => "com.mentaldistortion.fyreware.FyreWareDesktop"
+  run.using :main => "com.mentaldistortion.react.ReactDesktop"
   package :jar
 end
