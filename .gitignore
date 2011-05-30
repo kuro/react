@@ -1,0 +1,5 @@
+/lib/*.jar
+/target
+
+*~
+.*.sw?
