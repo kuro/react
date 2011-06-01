@@ -7,6 +7,7 @@ public class ReactDesktop
 {
     public static void main (String[] args)
     {
-        new JoglApplication(new React(), "React", 960, 600, false);
+        // FWVGA (854x480)
+        new JoglApplication(new React(), "React", 480, 854, false);
     }
 }
