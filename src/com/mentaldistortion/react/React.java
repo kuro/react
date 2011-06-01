@@ -5,45 +5,55 @@ import com.badlogic.gdx.graphics.*;
 
 public class React implements ApplicationListener
 {
-    GL10 gl;
-    FPSLogger fpsLogger;
+    final static String TAG = "React::React";
 
-    final static String TAG = "React";
+    GL10 gl;
+    OrthographicCamera cam;
+    FPSLogger fpsLogger;
+    Simulation sim;
 
     public void create ()
     {
-        Gdx.app.log(TAG, "create");
+        /// @todo find a proper scale
+        float foo = 1.0f;
+        cam = new OrthographicCamera((int)(9 * foo), (int)(16 * foo));
+
         fpsLogger = new FPSLogger();
         gl = Gdx.graphics.getGL10();
 
         gl.glClearColor(0, 0, 0, 0);
+
+        sim = new Simulation();
     }
 
     public void render ()
     {
-        fpsLogger.log();
+        //fpsLogger.log();
 
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+
+        cam.update();
+        cam.apply(gl);
+
+        sim.update();
+        sim.render();
     }
 
     public void resize (int w, int h)
     {
-        Gdx.app.log(TAG, "resize");
     }
 
     public void pause ()
     {
-        Gdx.app.log(TAG, "paused");
     }
 
     public void resume ()
     {
-        Gdx.app.log(TAG, "resumed");
     }
 
     public void dispose ()
     {
-        Gdx.app.log(TAG, "disposed");
+        sim.dispose();
     }
 
 }
