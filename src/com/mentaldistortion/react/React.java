@@ -15,7 +15,7 @@ public class React implements ApplicationListener
     public void create ()
     {
         /// @todo find a proper scale
-        float foo = 1.0f;
+        float foo = 0.25f;
         cam = new OrthographicCamera((int)(9 * foo), (int)(16 * foo));
 
         fpsLogger = new FPSLogger();

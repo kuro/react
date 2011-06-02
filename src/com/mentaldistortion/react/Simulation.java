@@ -2,6 +2,7 @@
 package com.mentaldistortion.react;
 
 import com.badlogic.gdx.*;
+import com.badlogic.gdx.files.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.*;
@@ -9,6 +10,8 @@ import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.math.collision.Ray;
 
 import com.badlogic.gdx.physics.box2d.*;
+
+import java.io.InputStream;
 
 public class Simulation implements InputProcessor, Disposable, QueryCallback
 {
@@ -39,66 +42,16 @@ public class Simulation implements InputProcessor, Disposable, QueryCallback
         world = new World(new Vector2(0.0f, -9.8f), true);
         debugRenderer = new Box2DDebugRenderer();
 
-        // ball
-        f = createBall(21.8f * 0.01f * 0.5f);
-        f.setUserData("ball");
-
-        // left
-        f = createWall(new Vector2(0.0f, -5.0f),
-                       new Vector2(0.0f, 5.0f),
-                       new Vector2(-2.5f, 0.0f));
-        f.setUserData("left wall");
-        // right
-        f = createWall(new Vector2(0.0f, -5.0f),
-                       new Vector2(0.0f, 5.0f),
-                       new Vector2(2.5f, 0.0f));
-        f.setUserData("right wall");
-        // bottom
-        f = createWall(new Vector2(-2.5f, 0.0f),
-                       new Vector2(2.5f, 0.0f),
-                       new Vector2(0.0f, -5.0f));
-        f.setUserData("bottom wall");
-
         Gdx.input.setInputProcessor(this);
-    }
 
-    Fixture createBall (float radius)
-    {
-        CircleShape shape = new CircleShape();
-        shape.setRadius(radius);
-
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-        Body ball = world.createBody(bodyDef);
-
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape;
-        fixtureDef.density = 1.0f;
-        fixtureDef.restitution = 0.9f;
-        Fixture fixture = ball.createFixture(fixtureDef);
-
-        shape.dispose();
-
-        return fixture;
-    }
-
-    Fixture createWall (Vector2 v0, Vector2 v1, Vector2 position)
-    {
-        PolygonShape shape = new PolygonShape();
-        shape.setAsEdge(v0, v1);
-
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.position.set(position);
-        Body wall = world.createBody(bodyDef);
-
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape;
-        fixtureDef.restitution = 0.9f;
-        Fixture fixture = wall.createFixture(fixtureDef);
-
-        shape.dispose();
-
-        return fixture;
+        try {
+            FileHandle hdl = Gdx.files.classpath("stages/stage001.xml");
+            StageLoader loader = new StageLoader(world);
+            loader.parse(hdl.read());
+        } catch (Exception e) {
+            Gdx.app.log(TAG, "oops: ", e);
+            throw new RuntimeException(e);
+        }
     }
 
     static float expMovAvg (float avg, float newValue, float n)
