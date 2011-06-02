@@ -23,7 +23,8 @@ public class React implements ApplicationListener
 
         gl.glClearColor(0, 0, 0, 0);
 
-        sim = new Simulation();
+        sim = new Simulation(cam);
+
     }
 
     public void render ()
