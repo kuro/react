@@ -15,9 +15,7 @@ public class React implements ApplicationListener
     @Override
     public void create ()
     {
-        /// @todo find a proper scale
-        float foo = 0.25f;
-        cam = new OrthographicCamera((int)(9 * foo), (int)(16 * foo));
+        cam = new OrthographicCamera();
 
         fpsLogger = new FPSLogger();
         gl = Gdx.graphics.getGL10();
@@ -45,6 +43,11 @@ public class React implements ApplicationListener
     @Override
     public void resize (int w, int h)
     {
+        float aspect = ((float)h) / ((float)w);
+        float width = 2;
+
+        cam.viewportWidth  = width;
+        cam.viewportHeight = width * aspect;
     }
 
     @Override
