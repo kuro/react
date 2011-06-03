@@ -38,14 +38,8 @@ class StageLoader extends DefaultHandler implements Disposable
     }
 
     Map<String, ShapeInfo> shapes;
-    Stack<String> stack;
-
     World world;
-
-    {
-        shapes = new HashMap<String, ShapeInfo>();
-        stack = new Stack<String>();
-    }
+    StringBuilder builder;
 
     StageLoader (World world)
     {
@@ -56,17 +50,36 @@ class StageLoader extends DefaultHandler implements Disposable
     {
     }
 
-    void parse (InputStream input) throws Exception
+    void parse (InputStream input)
+        throws Exception
     {
         SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
         parser.parse(input, this);
     }
 
+    public void startDocument ()
+        throws SAXException
+    {
+        super.startDocument();
+        shapes = new HashMap<String, ShapeInfo>();
+        builder = new StringBuilder();
+    }
+
+    public void endDocument ()
+        throws SAXException
+    {
+        super.endDocument();
+        for (ShapeInfo def : shapes.values()) {
+            def.shape.dispose();
+        }
+    }
+
     public void startElement (String uri, String localName,
                               String name, Attributes attributes)
+        throws SAXException
     {
+        super.startElement(uri, localName, name, attributes);
         String tmp;
-        stack.push(name);
         if (name.equals("box") || name.equals("ball")) {
             ShapeInfo def = new ShapeInfo();
 
@@ -137,18 +150,24 @@ class StageLoader extends DefaultHandler implements Disposable
             fixture.setUserData(id);
         }
     }
-    public void endElement (String uri, String localName, String name)
-    {
-        stack.pop();
-    }
+
     public void characters(char[] ch, int start, int length)
+        throws SAXException
     {
-        if (stack.isEmpty()) {
-            return;
-        }
-        if (stack.peek().equals("title")) {
-            String title = new String(ch, start, length);
+        super.characters(ch, start, length);
+        builder.append(ch, start, length);
+    }
+
+    public void endElement (String uri, String localName, String name)
+        throws SAXException
+    {
+        super.endElement(uri, localName, name);
+        builder.setLength(0);
+
+        if (name.equals("title")) {
+            String title = builder.toString();
             Gdx.app.log(TAG, "title: " + title);
         }
     }
+
 }
