@@ -44,10 +44,9 @@ public class React implements ApplicationListener
     public void resize (int w, int h)
     {
         float aspect = ((float)h) / ((float)w);
-        float width = 2;
 
-        cam.viewportWidth  = width;
-        cam.viewportHeight = width * aspect;
+        cam.viewportWidth  = sim.width;
+        cam.viewportHeight = sim.width * aspect;
     }
 
     @Override

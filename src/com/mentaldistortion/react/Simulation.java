@@ -21,6 +21,7 @@ public class Simulation implements InputProcessor, Disposable, QueryCallback
 
     float dt;
 
+    float width;
     World world;
     Box2DDebugRenderer debugRenderer;
     Body selectedBody;
@@ -46,7 +47,7 @@ public class Simulation implements InputProcessor, Disposable, QueryCallback
 
         try {
             FileHandle hdl = Gdx.files.classpath("stages/stage001.xml");
-            StageLoader loader = new StageLoader(world);
+            StageLoader loader = new StageLoader(this, world);
             loader.parse(hdl.read());
         } catch (Exception e) {
             Gdx.app.log(TAG, "oops: ", e);
