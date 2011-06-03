@@ -13,9 +13,9 @@ import com.badlogic.gdx.physics.box2d.*;
 
 import java.io.InputStream;
 
-public class Simulation implements InputProcessor, Disposable, QueryCallback
+public class Stage implements InputProcessor, Disposable, QueryCallback
 {
-    final static String TAG = "React::Simulation";
+    final static String TAG = "React::Stage";
 
     Camera cam;
 
@@ -32,7 +32,7 @@ public class Simulation implements InputProcessor, Disposable, QueryCallback
         selectedBody = null;
     }
 
-    Simulation (Camera cam)
+    Stage (Camera cam)
     {
         Fixture f = null;
 

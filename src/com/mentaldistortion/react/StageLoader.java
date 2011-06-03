@@ -38,13 +38,13 @@ class StageLoader extends DefaultHandler implements Disposable
     }
 
     Map<String, ShapeInfo> shapes;
-    Simulation sim;
+    Stage stage;
     World world;
     StringBuilder builder;
 
-    StageLoader (Simulation sim, World world)
+    StageLoader (Stage stage, World world)
     {
-        this.sim = sim;
+        this.stage = stage;
         this.world = world;
     }
 
@@ -87,7 +87,7 @@ class StageLoader extends DefaultHandler implements Disposable
         super.startElement(uri, localName, name, attributes);
         String tmp;
         if (name.equals("stage")) {
-            sim.width = Float.parseFloat(attributes.getValue("width"));
+            stage.width = Float.parseFloat(attributes.getValue("width"));
         }
         if (name.equals("box") || name.equals("ball")) {
             ShapeInfo def = new ShapeInfo();

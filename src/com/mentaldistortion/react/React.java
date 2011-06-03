@@ -10,7 +10,7 @@ public class React implements ApplicationListener
     GL10 gl;
     OrthographicCamera cam;
     FPSLogger fpsLogger;
-    Simulation sim;
+    Stage stage;
 
     @Override
     public void create ()
@@ -22,7 +22,7 @@ public class React implements ApplicationListener
 
         gl.glClearColor(0, 0, 0, 0);
 
-        sim = new Simulation(cam);
+        stage = new Stage(cam);
 
     }
 
@@ -36,8 +36,8 @@ public class React implements ApplicationListener
         cam.update();
         cam.apply(gl);
 
-        sim.update();
-        sim.render();
+        stage.update();
+        stage.render();
     }
 
     @Override
@@ -45,8 +45,8 @@ public class React implements ApplicationListener
     {
         float aspect = ((float)h) / ((float)w);
 
-        cam.viewportWidth  = sim.width;
-        cam.viewportHeight = sim.width * aspect;
+        cam.viewportWidth  = stage.width;
+        cam.viewportHeight = stage.width * aspect;
     }
 
     @Override
@@ -62,7 +62,7 @@ public class React implements ApplicationListener
     @Override
     public void dispose ()
     {
-        sim.dispose();
+        stage.dispose();
     }
 
 }
