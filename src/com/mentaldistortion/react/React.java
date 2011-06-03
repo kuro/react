@@ -12,6 +12,7 @@ public class React implements ApplicationListener
     FPSLogger fpsLogger;
     Simulation sim;
 
+    @Override
     public void create ()
     {
         /// @todo find a proper scale
@@ -27,6 +28,7 @@ public class React implements ApplicationListener
 
     }
 
+    @Override
     public void render ()
     {
         //fpsLogger.log();
@@ -40,18 +42,22 @@ public class React implements ApplicationListener
         sim.render();
     }
 
+    @Override
     public void resize (int w, int h)
     {
     }
 
+    @Override
     public void pause ()
     {
     }
 
+    @Override
     public void resume ()
     {
     }
 
+    @Override
     public void dispose ()
     {
         sim.dispose();

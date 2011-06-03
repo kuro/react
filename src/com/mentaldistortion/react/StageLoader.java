@@ -46,6 +46,7 @@ class StageLoader extends DefaultHandler implements Disposable
         this.world = world;
     }
 
+    @Override
     public void dispose ()
     {
     }
@@ -57,6 +58,7 @@ class StageLoader extends DefaultHandler implements Disposable
         parser.parse(input, this);
     }
 
+    @Override
     public void startDocument ()
         throws SAXException
     {
@@ -65,6 +67,7 @@ class StageLoader extends DefaultHandler implements Disposable
         builder = new StringBuilder();
     }
 
+    @Override
     public void endDocument ()
         throws SAXException
     {
@@ -74,6 +77,7 @@ class StageLoader extends DefaultHandler implements Disposable
         }
     }
 
+    @Override
     public void startElement (String uri, String localName,
                               String name, Attributes attributes)
         throws SAXException
@@ -151,6 +155,7 @@ class StageLoader extends DefaultHandler implements Disposable
         }
     }
 
+    @Override
     public void characters(char[] ch, int start, int length)
         throws SAXException
     {
@@ -158,6 +163,7 @@ class StageLoader extends DefaultHandler implements Disposable
         builder.append(ch, start, length);
     }
 
+    @Override
     public void endElement (String uri, String localName, String name)
         throws SAXException
     {
