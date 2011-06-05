@@ -87,7 +87,10 @@ class StageLoader extends DefaultHandler implements Disposable
         super.startElement(uri, localName, name, attributes);
         String tmp;
         if (name.equals("stage")) {
-            stage.width = Float.parseFloat(attributes.getValue("width"));
+            String[] size = attributes.getValue("size").split(",[ ]*");
+            stage.size.set(
+                Float.parseFloat(size[0]),
+                Float.parseFloat(size[1]));
         }
         if (name.equals("box") || name.equals("ball")) {
             ShapeInfo def = new ShapeInfo();
@@ -133,6 +136,8 @@ class StageLoader extends DefaultHandler implements Disposable
             ShapeInfo shapeInfo = shapes.get(ref);
 
             BodyDef bd = new BodyDef();
+
+            bd.allowSleep = false;
 
             if (shapeInfo.density > 0.0f) {
                 bd.type = BodyDef.BodyType.DynamicBody;

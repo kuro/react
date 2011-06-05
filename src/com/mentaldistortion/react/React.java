@@ -3,6 +3,8 @@ package com.mentaldistortion.react;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
 
+import com.badlogic.gdx.math.Vector3;
+
 public class React implements ApplicationListener
 {
     final static String TAG = "React::React";
@@ -23,6 +25,52 @@ public class React implements ApplicationListener
         gl.glClearColor(0, 0, 0, 0);
 
         stage = new Stage(cam);
+
+        InputMultiplexer inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(stage);
+        /// @bug Drag scrolling is really jerky
+        inputMultiplexer.addProcessor(new InputAdapter() {
+            Vector3 prevWorldPos;
+            {
+                prevWorldPos = null;
+            }
+            @Override
+            public boolean scrolled (int amount)
+            {
+                cam.position.y += amount * 0.02;
+                return true;
+            }
+            @Override
+            public boolean touchDragged (int x, int y, int pointer)
+            {
+                if (prevWorldPos == null) {
+                    return false;
+                }
+                Vector3 curWorldPos = new Vector3(x, y, 0);
+                cam.unproject(curWorldPos);
+
+                Vector3 deltaWorldPos = prevWorldPos.sub(curWorldPos);
+
+                cam.position.add(deltaWorldPos);
+
+                prevWorldPos = curWorldPos;
+                return true;
+            }
+            @Override
+            public boolean touchDown (int x, int y, int pointer, int button)
+            {
+                prevWorldPos = new Vector3(x, y, 0);
+                cam.unproject(prevWorldPos);
+                return true;
+            }
+            @Override
+            public boolean touchUp (int x, int y, int pointer, int button)
+            {
+                prevWorldPos = null;
+                return true;
+            }
+        });
+        Gdx.input.setInputProcessor(inputMultiplexer);
 
     }
 
@@ -45,8 +93,8 @@ public class React implements ApplicationListener
     {
         float aspect = ((float)h) / ((float)w);
 
-        cam.viewportWidth  = stage.width;
-        cam.viewportHeight = stage.width * aspect;
+        cam.viewportWidth  = stage.size.x * 2.0f;
+        cam.viewportHeight = stage.size.x * 2.0f * aspect;
     }
 
     @Override

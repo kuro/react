@@ -1,12 +1,13 @@
 <?xml version="1.0"?>
-<stage width="2">
+<stage size="1, 5">
+    <!-- sizes in half extents -->
     <asset>
         <title>Stage 1</title>
     </asset>
     <defs>
-        <box id="vwall" size="0.01, 1.5" />
-        <box id="hwall" size="0.75, 0.01" restitution="0.6" />
-        <ball id="ball" radius="0.109" density="1.0" />
+        <box id="vwall" size="0.01, 1.5" />  <!-- 3m -->
+        <box id="hwall" size="0.75, 0.01" restitution="0.6" /> <!-- 1.5m -->
+        <ball id="ball" radius="0.109" density="1.0" /> <!-- bowling ball -->
     </defs>
     <scene>
         <instance id="ball" ref="ball" pos="0.0, 3.5" />

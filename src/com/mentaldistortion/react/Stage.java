@@ -21,7 +21,7 @@ public class Stage implements InputProcessor, Disposable, QueryCallback
 
     float dt;
 
-    float width;
+    Vector2 size;  ///< half extents
     World world;
     Box2DDebugRenderer debugRenderer;
     Body selectedBody;
@@ -29,6 +29,7 @@ public class Stage implements InputProcessor, Disposable, QueryCallback
     Vector2 prevWorldPos;
 
     {
+        size = new Vector2();
         selectedBody = null;
     }
 
@@ -42,8 +43,6 @@ public class Stage implements InputProcessor, Disposable, QueryCallback
 
         world = new World(new Vector2(0.0f, -9.8f), true);
         debugRenderer = new Box2DDebugRenderer();
-
-        Gdx.input.setInputProcessor(this);
 
         try {
             FileHandle hdl = Gdx.files.classpath("stages/stage001.xml");
@@ -61,6 +60,8 @@ public class Stage implements InputProcessor, Disposable, QueryCallback
         float retval = (newValue * alpha) + (avg * (1.0f - alpha));
         return retval;
     }    
+
+    Vector2 lastAcc = new Vector2();
 
     void update ()
     {
@@ -84,7 +85,6 @@ public class Stage implements InputProcessor, Disposable, QueryCallback
     @Override
     public boolean keyTyped (char character)
     {
-        Gdx.app.log(TAG, "key: " + character);
         return false;
     }
 
@@ -103,15 +103,13 @@ public class Stage implements InputProcessor, Disposable, QueryCallback
     @Override
     public boolean scrolled (int amount)
     {
-        Gdx.app.log(TAG, "scrolled: " + amount);
         return false;
     }
 
     @Override
     public boolean touchDown (int x, int y, int pointer, int button)
     {
-        Gdx.app.log(TAG, "touchDown: (" + x + ", " + y + "), " +
-                    pointer + ", " + button);
+        boolean retval = false;
 
         Ray ray = cam.getPickRay(x, y);
 
@@ -128,12 +126,18 @@ public class Stage implements InputProcessor, Disposable, QueryCallback
         cam.unproject(v);
         prevWorldPos = new Vector2(v.x, v.y);
 
-        return false;
+        if (selectedBody != null) {
+            retval = true;
+        }
+
+        return retval;
     }
 
     @Override
     public boolean touchDragged (int x, int y, int pointer)
     {
+        boolean retval = false;
+
         // store prev
         Vector3 v = new Vector3(x, y, 0);
         cam.unproject(v);
@@ -144,25 +148,29 @@ public class Stage implements InputProcessor, Disposable, QueryCallback
             Vector2 p = selectedBody.getPosition();
             p = p.sub(delta);
             selectedBody.setTransform(p, selectedBody.getAngle());
+            retval = true;
         }
 
         // store prev
         prevWorldPos = curWorldPos;
 
-        return false;
+        return retval;
     }
 
     @Override
     public boolean touchUp (int x, int y, int pointer, int button)
     {
+        boolean retval = false;
+
         if (selectedBody != null) {
             selectedBody = null;
+            retval = true;
         }
 
         // store prev
         prevWorldPos = null;
 
-        return false;
+        return retval;
     }
 
     @Override
