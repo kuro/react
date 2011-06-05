@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
-<stage size="1, 5">
+<maze size="1, 5">
     <!-- sizes in half extents -->
     <asset>
-        <title>Stage 1</title>
+        <title>Act 1</title>
     </asset>
     <defs>
         <box id="vwall" size="0.01, 1.5" />  <!-- 3m -->
@@ -15,4 +15,4 @@
         <instance ref="vwall" pos="-0.75, 0" />
         <instance ref="hwall" pos="0.0, -1.5" />
     </scene>
-</stage>
+</maze>

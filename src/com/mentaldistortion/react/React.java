@@ -12,7 +12,7 @@ public class React implements ApplicationListener
     GL10 gl;
     OrthographicCamera cam;
     FPSLogger fpsLogger;
-    Stage stage;
+    Maze maze;
 
     @Override
     public void create ()
@@ -24,10 +24,10 @@ public class React implements ApplicationListener
 
         gl.glClearColor(0, 0, 0, 0);
 
-        stage = new Stage(cam);
+        maze = new Maze(cam);
 
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
-        inputMultiplexer.addProcessor(stage);
+        inputMultiplexer.addProcessor(maze);
         /// @bug Drag scrolling is really jerky
         inputMultiplexer.addProcessor(new InputAdapter() {
             Vector3 prevWorldPos;
@@ -84,8 +84,8 @@ public class React implements ApplicationListener
         cam.update();
         cam.apply(gl);
 
-        stage.update();
-        stage.render();
+        maze.update();
+        maze.render();
     }
 
     @Override
@@ -93,8 +93,8 @@ public class React implements ApplicationListener
     {
         float aspect = ((float)h) / ((float)w);
 
-        cam.viewportWidth  = stage.size.x * 2.0f;
-        cam.viewportHeight = stage.size.x * 2.0f * aspect;
+        cam.viewportWidth  = maze.size.x * 2.0f;
+        cam.viewportHeight = maze.size.x * 2.0f * aspect;
     }
 
     @Override
@@ -110,7 +110,7 @@ public class React implements ApplicationListener
     @Override
     public void dispose ()
     {
-        stage.dispose();
+        maze.dispose();
     }
 
 }

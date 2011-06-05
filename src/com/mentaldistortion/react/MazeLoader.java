@@ -14,9 +14,9 @@ import javax.xml.parsers.*;
 import org.xml.sax.*;
 import org.xml.sax.helpers.*;
 
-class StageLoader extends DefaultHandler implements Disposable
+class MazeLoader extends DefaultHandler implements Disposable
 {
-    final static String TAG = "React::StageLoader";
+    final static String TAG = "React::MazeLoader";
 
     class ShapeInfo
     {
@@ -38,13 +38,13 @@ class StageLoader extends DefaultHandler implements Disposable
     }
 
     Map<String, ShapeInfo> shapes;
-    Stage stage;
+    Maze maze;
     World world;
     StringBuilder builder;
 
-    StageLoader (Stage stage, World world)
+    MazeLoader (Maze maze, World world)
     {
-        this.stage = stage;
+        this.maze = maze;
         this.world = world;
     }
 
@@ -86,9 +86,9 @@ class StageLoader extends DefaultHandler implements Disposable
     {
         super.startElement(uri, localName, name, attributes);
         String tmp;
-        if (name.equals("stage")) {
+        if (name.equals("maze")) {
             String[] size = attributes.getValue("size").split(",[ ]*");
-            stage.size.set(
+            maze.size.set(
                 Float.parseFloat(size[0]),
                 Float.parseFloat(size[1]));
         }

@@ -13,9 +13,9 @@ import com.badlogic.gdx.physics.box2d.*;
 
 import java.io.InputStream;
 
-public class Stage implements InputProcessor, Disposable, QueryCallback
+public class Maze implements InputProcessor, Disposable, QueryCallback
 {
-    final static String TAG = "React::Stage";
+    final static String TAG = "React::Maze";
 
     Camera cam;
 
@@ -33,7 +33,7 @@ public class Stage implements InputProcessor, Disposable, QueryCallback
         selectedBody = null;
     }
 
-    Stage (Camera cam)
+    Maze (Camera cam)
     {
         Fixture f = null;
 
@@ -45,8 +45,8 @@ public class Stage implements InputProcessor, Disposable, QueryCallback
         debugRenderer = new Box2DDebugRenderer();
 
         try {
-            FileHandle hdl = Gdx.files.classpath("stages/stage001.xml");
-            StageLoader loader = new StageLoader(this, world);
+            FileHandle hdl = Gdx.files.classpath("mazes/maze001.xml");
+            MazeLoader loader = new MazeLoader(this, world);
             loader.parse(hdl.read());
         } catch (Exception e) {
             Gdx.app.log(TAG, "oops: ", e);
