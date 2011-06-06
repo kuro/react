@@ -13,11 +13,17 @@ import com.badlogic.gdx.physics.box2d.*;
 
 import java.io.InputStream;
 
-public class Maze implements InputProcessor, Disposable, QueryCallback
+import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.scenes.scene2d.*;
+
+public class Maze
+    extends Actor
+    implements Disposable
+    //implements InputProcessor, Disposable, QueryCallback
 {
     final static String TAG = "React::Maze";
 
-    Camera cam;
+    //Camera cam;
 
     float dt;
 
@@ -33,11 +39,11 @@ public class Maze implements InputProcessor, Disposable, QueryCallback
         selectedBody = null;
     }
 
-    Maze (Camera cam)
+    Maze ()
     {
-        Fixture f = null;
+        super("Maze");
 
-        this.cam = cam;
+        Fixture f = null;
 
         dt = 1.0f / 60.0f;
 
@@ -54,27 +60,6 @@ public class Maze implements InputProcessor, Disposable, QueryCallback
         }
     }
 
-    static float expMovAvg (float avg, float newValue, float n)
-    {
-        float alpha = 2.0f / (n + 1.0f);
-        float retval = (newValue * alpha) + (avg * (1.0f - alpha));
-        return retval;
-    }    
-
-    Vector2 lastAcc = new Vector2();
-
-    void update ()
-    {
-        dt = expMovAvg(dt, Gdx.graphics.getDeltaTime(), 60);
-        world.step(dt, 3, 3);
-        world.clearForces();
-    }
-
-    void render ()
-    {
-        debugRenderer.render(world);
-    }
-
     @Override
     public void dispose ()
     {
@@ -82,116 +67,156 @@ public class Maze implements InputProcessor, Disposable, QueryCallback
         world.dispose();
     }
 
+    void update (float dt)
+    {
+        world.step(dt, 3, 3);
+        world.clearForces();
+    }
+
     @Override
-    public boolean keyTyped (char character)
+    protected void draw (SpriteBatch batch, float parentAlpha)
+    {
+        GL10 gl = Gdx.graphics.getGL10();
+        gl.glDisable(gl.GL_TEXTURE_2D);
+
+        debugRenderer.render(world);
+    }
+
+
+    @Override
+    public Actor hit (float x, float y)
+    {
+        return null;
+    }
+
+    @Override
+    protected boolean touchDown (float x, float y, int pointer) 
     {
         return false;
     }
 
     @Override
-    public boolean keyDown (int keyCode)
+    protected boolean touchDragged (float x, float y, int pointer) 
     {
         return false;
     }
 
     @Override
-    public boolean keyUp (int keyCode)
+    protected boolean touchUp (float x, float y, int pointer) 
     {
         return false;
     }
 
-    @Override
-    public boolean scrolled (int amount)
-    {
-        return false;
-    }
+//    @Override
+//    public boolean keyTyped (char character)
+//    {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean keyDown (int keyCode)
+//    {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean keyUp (int keyCode)
+//    {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean scrolled (int amount)
+//    {
+//        return false;
+//    }
 
-    @Override
-    public boolean touchDown (int x, int y, int pointer, int button)
-    {
-        boolean retval = false;
+//    @Override
+//    public boolean touchDown (int x, int y, int pointer, int button)
+//    {
+//        boolean retval = false;
+//
+//        Ray ray = cam.getPickRay(x, y);
+//
+//        float delta = 0.0f;
+//
+//        world.QueryAABB(this,
+//                      ray.origin.x - delta,
+//                      ray.origin.y - delta,
+//                      ray.origin.x + delta,
+//                      ray.origin.y + delta);
+//
+//        // store prev
+//        Vector3 v = new Vector3(x, y, 0);
+//        cam.unproject(v);
+//        prevWorldPos = new Vector2(v.x, v.y);
+//
+//        if (selectedBody != null) {
+//            retval = true;
+//        }
+//
+//        return retval;
+//    }
 
-        Ray ray = cam.getPickRay(x, y);
+//    @Override
+//    public boolean touchDragged (int x, int y, int pointer)
+//    {
+//        boolean retval = false;
+//
+//        // store prev
+//        Vector3 v = new Vector3(x, y, 0);
+//        cam.unproject(v);
+//        Vector2 curWorldPos = new Vector2(v.x, v.y);
+//
+//        if (selectedBody != null) {
+//            Vector2 delta = prevWorldPos.sub(curWorldPos);
+//            Vector2 p = selectedBody.getPosition();
+//            p = p.sub(delta);
+//            selectedBody.setTransform(p, selectedBody.getAngle());
+//            retval = true;
+//        }
+//
+//        // store prev
+//        prevWorldPos = curWorldPos;
+//
+//        return retval;
+//    }
 
-        float delta = 0.0f;
-
-        world.QueryAABB(this,
-                      ray.origin.x - delta,
-                      ray.origin.y - delta,
-                      ray.origin.x + delta,
-                      ray.origin.y + delta);
-
-        // store prev
-        Vector3 v = new Vector3(x, y, 0);
-        cam.unproject(v);
-        prevWorldPos = new Vector2(v.x, v.y);
-
-        if (selectedBody != null) {
-            retval = true;
-        }
-
-        return retval;
-    }
-
-    @Override
-    public boolean touchDragged (int x, int y, int pointer)
-    {
-        boolean retval = false;
-
-        // store prev
-        Vector3 v = new Vector3(x, y, 0);
-        cam.unproject(v);
-        Vector2 curWorldPos = new Vector2(v.x, v.y);
-
-        if (selectedBody != null) {
-            Vector2 delta = prevWorldPos.sub(curWorldPos);
-            Vector2 p = selectedBody.getPosition();
-            p = p.sub(delta);
-            selectedBody.setTransform(p, selectedBody.getAngle());
-            retval = true;
-        }
-
-        // store prev
-        prevWorldPos = curWorldPos;
-
-        return retval;
-    }
-
-    @Override
-    public boolean touchUp (int x, int y, int pointer, int button)
-    {
-        boolean retval = false;
-
-        if (selectedBody != null) {
-            selectedBody = null;
-            retval = true;
-        }
-
-        // store prev
-        prevWorldPos = null;
-
-        return retval;
-    }
-
-    @Override
-    public boolean touchMoved (int x, int y)
-    {
-        return false;
-    }
-
-    @Override
-    public boolean reportFixture (Fixture fixture)
-    {
-        Gdx.app.log(TAG, fixture.toString() + ": " + fixture.getUserData());
-        boolean toContinue = true;
-
-        if (fixture.getBody().getType() == BodyDef.BodyType.StaticBody) {
-            Gdx.app.log(TAG, "manipulate the above");
-            toContinue = false;
-            selectedBody = fixture.getBody();
-        }
-
-        return toContinue;
-    }
+//    @Override
+//    public boolean touchUp (int x, int y, int pointer, int button)
+//    {
+//        boolean retval = false;
+//
+//        if (selectedBody != null) {
+//            selectedBody = null;
+//            retval = true;
+//        }
+//
+//        // store prev
+//        prevWorldPos = null;
+//
+//        return retval;
+//    }
+//
+//    @Override
+//    public boolean touchMoved (int x, int y)
+//    {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean reportFixture (Fixture fixture)
+//    {
+//        Gdx.app.log(TAG, fixture.toString() + ": " + fixture.getUserData());
+//        boolean toContinue = true;
+//
+//        if (fixture.getBody().getType() == BodyDef.BodyType.StaticBody) {
+//            Gdx.app.log(TAG, "manipulate the above");
+//            toContinue = false;
+//            selectedBody = fixture.getBody();
+//        }
+//
+//        return toContinue;
+//    }
 
 }
