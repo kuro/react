@@ -79,7 +79,13 @@ public class Maze
         GL10 gl = Gdx.graphics.getGL10();
         gl.glDisable(gl.GL_TEXTURE_2D);
 
+        /// @todo is it proper to apply my own transforms in this way?
+        gl.glPushMatrix();
+        gl.glTranslatef(x, y, 0.0f);
+
         debugRenderer.render(world);
+
+        gl.glPopMatrix();
     }
 
 

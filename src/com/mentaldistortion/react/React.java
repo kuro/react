@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.actors.*;
 import com.badlogic.gdx.math.Vector3;
 
 public class React
+    extends InputAdapter
     implements ApplicationListener
 {
     final static String TAG = "React::React";
@@ -57,8 +58,10 @@ public class React
         // input multiplexing
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         Gdx.input.setInputProcessor(inputMultiplexer);
-        inputMultiplexer.addProcessor(stage);
+
         inputMultiplexer.addProcessor(ui);
+        inputMultiplexer.addProcessor(stage);
+        inputMultiplexer.addProcessor(this);
 
         // button
         Button playButton = new Button(
@@ -92,12 +95,6 @@ public class React
 //            Vector3 prevWorldPos;
 //            {
 //                prevWorldPos = null;
-//            }
-//            @Override
-//            public boolean scrolled (int amount)
-//            {
-//                cam.position.y += amount * 0.02;
-//                return true;
 //            }
 //            @Override
 //            public boolean touchDragged (int x, int y, int pointer)
@@ -192,6 +189,13 @@ public class React
     public void dispose ()
     {
 //        maze.dispose();
+    }
+
+    @Override
+    public boolean scrolled (int amount)
+    {
+        maze.y += amount * 0.02;
+        return true;
     }
 
 }
