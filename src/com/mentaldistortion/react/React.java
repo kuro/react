@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actors.*;
 
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.Vector2;
 
 public class React
     extends InputAdapter
@@ -24,8 +24,11 @@ public class React
 
     float dt;
 
+    Vector2 prevWorldPos;
+
     {
         dt = 1.0f / 60.0f;
+        prevWorldPos = null;
     }
 
     static float expMovAvg (float avg, float newValue, float n)
@@ -83,49 +86,7 @@ public class React
         maze = new Maze();
         stage.addActor(maze);
 
-//
-//        fpsLogger = new FPSLogger();
-//        gl = Gdx.graphics.getGL10();
-//
-//
-//        maze = new Maze(cam);
-//
-//        /// @bug Drag scrolling is really jerky
-//        inputMultiplexer.addProcessor(new InputAdapter() {
-//            Vector3 prevWorldPos;
-//            {
-//                prevWorldPos = null;
-//            }
-//            @Override
-//            public boolean touchDragged (int x, int y, int pointer)
-//            {
-//                if (prevWorldPos == null) {
-//                    return false;
-//                }
-//                Vector3 curWorldPos = new Vector3(x, y, 0);
-//                cam.unproject(curWorldPos);
-//
-//                Vector3 deltaWorldPos = prevWorldPos.sub(curWorldPos);
-//
-//                cam.position.add(deltaWorldPos);
-//
-//                prevWorldPos = curWorldPos;
-//                return true;
-//            }
-//            @Override
-//            public boolean touchDown (int x, int y, int pointer, int button)
-//            {
-//                prevWorldPos = new Vector3(x, y, 0);
-//                cam.unproject(prevWorldPos);
-//                return true;
-//            }
-//            @Override
-//            public boolean touchUp (int x, int y, int pointer, int button)
-//            {
-//                prevWorldPos = null;
-//                return true;
-//            }
-//        });
+        fpsLogger = new FPSLogger();
 
     }
 
@@ -146,7 +107,7 @@ public class React
         ui.act(dt);
         ui.draw();
 
-        //fpsLogger.log();
+        fpsLogger.log();
     }
 
     @Override
@@ -196,6 +157,44 @@ public class React
     {
         maze.y += amount * 0.02;
         return true;
+    }
+
+    @Override
+    public boolean touchDown (int x, int y, int pointer, int button)
+    {
+        prevWorldPos = new Vector2();
+        stage.toStageCoordinates(x, y, prevWorldPos);
+        return true;
+    }
+
+    @Override
+    public boolean touchDragged (int x, int y, int pointer)
+    {
+        if (prevWorldPos == null) {
+            return false;
+        }
+
+        Vector2 curWorldPos = new Vector2();
+        stage.toStageCoordinates(x, y, curWorldPos);
+
+        Vector2 deltaWorldPos = prevWorldPos.sub(curWorldPos);
+
+        maze.x -= deltaWorldPos.x;
+        maze.y -= deltaWorldPos.y;
+
+        prevWorldPos = curWorldPos;
+        return true;
+    }
+
+    @Override
+    public boolean touchUp (int x, int y, int pointer, int button)
+    {
+        if (prevWorldPos == null) {
+            return false;
+        } else {
+            prevWorldPos = null;
+            return true;
+        }
     }
 
 }
