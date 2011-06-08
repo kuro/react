@@ -56,7 +56,7 @@ public class React
         ui.addActor(topBar);
 
         // OpenGL
-        gl.glClearColor(0, 0, 0, 0);
+        gl.glClearColor(0.3f, 0.3f, 0.3f, 0);
 
         // input multiplexing
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
@@ -76,7 +76,7 @@ public class React
             @Override
             public void clicked (Button button)
             {
-                Gdx.app.log(TAG, "play");
+                maze.reset();
             }
         };
         topBar.addActor(playButton);

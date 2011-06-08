@@ -1,6 +1,8 @@
 
 package com.mentaldistortion.react;
 
+import com.mentaldistortion.react.items.*;
+
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.files.*;
 import com.badlogic.gdx.graphics.*;
@@ -16,8 +18,11 @@ import java.io.InputStream;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.scenes.scene2d.*;
 
+import java.util.Map;
+import java.util.HashMap;
+
 public class Maze
-    extends Actor
+    extends Group
     implements Disposable
     //implements InputProcessor, Disposable, QueryCallback
 {
@@ -32,11 +37,14 @@ public class Maze
     Box2DDebugRenderer debugRenderer;
     Body selectedBody;
 
+    Map<String, Texture> textures;
+
     Vector2 prevWorldPos;
 
     {
         size = new Vector2();
         selectedBody = null;
+        textures = new HashMap<String, Texture>();
     }
 
     Maze ()
@@ -76,6 +84,8 @@ public class Maze
     @Override
     protected void draw (SpriteBatch batch, float parentAlpha)
     {
+        super.draw(batch, parentAlpha);
+
         GL10 gl = Gdx.graphics.getGL10();
         gl.glDisable(gl.GL_TEXTURE_2D);
 
@@ -89,28 +99,38 @@ public class Maze
     }
 
 
-    @Override
-    public Actor hit (float x, float y)
-    {
-        return null;
-    }
+//    @Override
+//    public Actor hit (float x, float y)
+//    {
+//        return null;
+//    }
+//
+//    @Override
+//    protected boolean touchDown (float x, float y, int pointer)
+//    {
+//        return false;
+//    }
+//
+//    @Override
+//    protected boolean touchDragged (float x, float y, int pointer)
+//    {
+//        return false;
+//    }
+//
+//    @Override
+//    protected boolean touchUp (float x, float y, int pointer)
+//    {
+//        return false;
+//    }
 
-    @Override
-    protected boolean touchDown (float x, float y, int pointer) 
+    public void reset ()
     {
-        return false;
-    }
-
-    @Override
-    protected boolean touchDragged (float x, float y, int pointer) 
-    {
-        return false;
-    }
-
-    @Override
-    protected boolean touchUp (float x, float y, int pointer) 
-    {
-        return false;
+        for (Actor child : getActors()) {
+            if (child instanceof Item) {
+                Item item = (Item)child;
+                item.reset();
+            }
+        }
     }
 
 //    @Override

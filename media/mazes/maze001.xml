@@ -1,16 +1,20 @@
 <?xml version="1.0"?>
+<!-- sizes in half extents -->
 <maze size="1, 5">
-    <!-- sizes in half extents -->
     <asset>
         <title>Act 1</title>
     </asset>
+    <textures>
+        <texture id="ball" path="ui/ball.png" />
+    </textures>
     <defs>
         <box id="vwall" size="0.01, 1.5" />  <!-- 3m -->
         <box id="hwall" size="0.75, 0.01" restitution="0.6" /> <!-- 1.5m -->
-        <ball id="ball" radius="0.109" density="1.0" /> <!-- bowling ball -->
+        <!-- bowling ball -->
+        <ball id="ball" radius="0.109" density="1.0" textureId="ball" />
     </defs>
     <scene>
-        <instance id="ball" ref="ball" pos="0.0, 3.5" />
+        <instance id="ball" ref="ball" pos="-0.5, 1.5" />
         <instance ref="vwall" pos="0.75, 0" />
         <instance ref="vwall" pos="-0.75, 0" />
         <instance ref="hwall" pos="0.0, -1.5" />

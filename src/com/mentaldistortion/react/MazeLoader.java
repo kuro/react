@@ -1,11 +1,14 @@
 
 package com.mentaldistortion.react;
 
+import com.mentaldistortion.react.items.*;
+
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.*;
 
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.graphics.Texture;
 
 import java.io.InputStream;
 import java.util.*;
@@ -18,6 +21,9 @@ class MazeLoader extends DefaultHandler implements Disposable
 {
     final static String TAG = "React::MazeLoader";
 
+    /**
+     * Associated with a prototype.
+     */
     class ShapeInfo
     {
         String id;
@@ -25,12 +31,20 @@ class MazeLoader extends DefaultHandler implements Disposable
         Shape shape;
         float density;
         float restitution;
+        String textureId;
+
+        float width;
+        float height;
 
         {
             density = 0.0f;
             restitution = 0.0f;
+            textureId = null;
         }
 
+        /**
+         * Only for things that should not persist into the game.
+         */
         void dispose ()
         {
             shape.dispose();
@@ -92,18 +106,27 @@ class MazeLoader extends DefaultHandler implements Disposable
                 Float.parseFloat(size[0]),
                 Float.parseFloat(size[1]));
         }
+        if (name.equals("texture")) {
+            String id = attributes.getValue("id");
+            String path = attributes.getValue("path");
+            Texture tex = new Texture(Gdx.files.internal(path));
+            maze.textures.put(id, tex);
+        }
         if (name.equals("box") || name.equals("ball")) {
             ShapeInfo def = new ShapeInfo();
 
             def.id = attributes.getValue("id");
             def.type = name;
 
+            def.textureId = attributes.getValue("textureId");
+
             if (name.equals("ball")) {
                 def.shape = new CircleShape();
 
                 // radius
-                String radius = attributes.getValue("radius");
-                def.shape.setRadius(Float.parseFloat(radius));
+                float radius = Float.parseFloat(attributes.getValue("radius"));
+                def.shape.setRadius(radius);
+                def.width = def.height = 2.0f * radius;
             } else if (name.equals("box")) {
                 def.shape = new PolygonShape();
 
@@ -113,6 +136,8 @@ class MazeLoader extends DefaultHandler implements Disposable
                 float hw = Float.parseFloat(size[0]);
                 float hh = Float.parseFloat(size[1]);
                 ((PolygonShape)def.shape).setAsBox(hw, hh);
+                def.width  = 2.0f * hw;
+                def.height = 2.0f * hh;
             }
 
             // density
@@ -144,6 +169,8 @@ class MazeLoader extends DefaultHandler implements Disposable
             }
 
             String[] pos = attributes.getValue("pos").split(",[ ]*");
+
+            /// @todo is this necessary since we are going to reset anyway?
             bd.position.set(new Vector2(Float.parseFloat(pos[0]),
                                         Float.parseFloat(pos[1])));
 
@@ -161,7 +188,23 @@ class MazeLoader extends DefaultHandler implements Disposable
             }
 
             Fixture fixture = body.createFixture(fd);
-            fixture.setUserData(id);
+
+            // item
+            Item item = new Item("item-" + ref + "-" + id);
+            item.body = body;
+            item.fixture = fixture;
+            item.width = shapeInfo.width;
+            item.height = shapeInfo.height;
+            item.initialPosition.set(bd.position);
+            if (shapeInfo.textureId != null) {
+                item.texture = maze.textures.get(shapeInfo.textureId);
+            }
+            item.reset();
+
+            body.setUserData(item);
+            fixture.setUserData(item);
+
+            maze.addActor(item);
         }
     }
 
