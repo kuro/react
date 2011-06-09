@@ -56,6 +56,7 @@ public class Maze
         dt = 1.0f / 60.0f;
 
         world = new World(new Vector2(0.0f, -9.8f), true);
+        world.setContactListener(new ContactListener(this));
         debugRenderer = new Box2DDebugRenderer();
 
         try {
