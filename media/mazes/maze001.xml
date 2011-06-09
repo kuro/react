@@ -6,10 +6,11 @@
     </asset>
     <textures>
         <texture id="ball" path="ui/ball.png" />
+        <texture id="box" path="ui/box.png" />
     </textures>
     <defs>
-        <box id="vwall" size="0.01, 1.5" />  <!-- 3m -->
-        <box id="hwall" size="0.75, 0.01" restitution="0.6" /> <!-- 1.5m -->
+        <box id="vwall" size="0.04, 1.5" textureId="box" />  <!-- 3m -->
+        <box id="hwall" size="0.75, 0.04" restitution="0.6" textureId="box" /> <!-- 1.5m -->
         <!-- bowling ball -->
         <ball id="ball" radius="0.109" density="1.0" textureId="ball" />
     </defs>
