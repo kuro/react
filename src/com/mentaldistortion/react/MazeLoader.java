@@ -74,6 +74,24 @@ class MazeLoader extends DefaultHandler implements Disposable
         parser.parse(input, this);
     }
 
+    Vector2 to_vec2 (String str)
+    {
+        Vector2 v = new Vector2();
+        String[] ary = str.split(",[ ]*");
+        v.set(Float.parseFloat(ary[0]), Float.parseFloat(ary[1]));
+        return v;
+    }
+
+    Vector3 to_vec3 (String str)
+    {
+        Vector3 v = new Vector3();
+        String[] ary = str.split(",[ ]*");
+        v.set(Float.parseFloat(ary[0]),
+              Float.parseFloat(ary[1]),
+              Float.parseFloat(ary[2]));
+        return v;
+    }
+
     @Override
     public void startDocument ()
         throws SAXException
@@ -101,10 +119,7 @@ class MazeLoader extends DefaultHandler implements Disposable
         super.startElement(uri, localName, name, attributes);
         String tmp;
         if (name.equals("maze")) {
-            String[] size = attributes.getValue("size").split(",[ ]*");
-            maze.size.set(
-                Float.parseFloat(size[0]),
-                Float.parseFloat(size[1]));
+            maze.size.set(to_vec2(attributes.getValue("size")));
         }
         if (name.equals("texture")) {
             String id = attributes.getValue("id");
@@ -130,14 +145,11 @@ class MazeLoader extends DefaultHandler implements Disposable
             } else if (name.equals("box")) {
                 def.shape = new PolygonShape();
 
-                String[] size =
-                    attributes.getValue("size").split(",[ ]*");
+                Vector2 halfSize = to_vec2(attributes.getValue("size"));
 
-                float hw = Float.parseFloat(size[0]);
-                float hh = Float.parseFloat(size[1]);
-                ((PolygonShape)def.shape).setAsBox(hw, hh);
-                def.width  = 2.0f * hw;
-                def.height = 2.0f * hh;
+                ((PolygonShape)def.shape).setAsBox(halfSize.x, halfSize.y);
+                def.width  = 2.0f * halfSize.x;
+                def.height = 2.0f * halfSize.y;
             }
 
             // density
@@ -168,11 +180,8 @@ class MazeLoader extends DefaultHandler implements Disposable
                 bd.type = BodyDef.BodyType.DynamicBody;
             }
 
-            String[] pos = attributes.getValue("pos").split(",[ ]*");
-
             /// @todo is this necessary since we are going to reset anyway?
-            bd.position.set(new Vector2(Float.parseFloat(pos[0]),
-                                        Float.parseFloat(pos[1])));
+            bd.position.set(to_vec2(attributes.getValue("pos")));
 
             Body body = world.createBody(bd);
 
