@@ -76,31 +76,51 @@ public class Item
     @Override
     protected void draw (SpriteBatch batch, float parentAlpha)
     {
+        // update with physics info
+        update();
+
+        // draw (if given a texture)
         if (texture == null) {
             return;
         }
 
-        x = body.getPosition().x;
-        y = body.getPosition().y;
+        batch.draw(
+            texture,
+            x, y,                                       // x, y
+            originX, originY,                           // origin x, y
+            width, height,                              // w, h in pixels
+            scaleX, scaleY,                             // scale x, y
+            rotation,                                   // rotation
 
-        // center it
-        float xOffset = x + (-0.5f * width);
-        float yOffset = y + (-0.5f * height);
+            0, 0,                                       // src x, y
+            texture.getWidth(), texture.getHeight(),    // src w, h
 
-        batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-        batch.draw(texture,
-                   xOffset, yOffset,                        // x, y
-                   width * 0.5f, height * 0.5f,             // origin x, y
-                   width, height,                           // w, h in pixels
-                   1.0f, 1.0f,                              // scale x, y
-                   body.getAngle()*180.0f/(float)Math.PI,   // rotation
+            false, false                                // flip x, y
 
-                   0, 0,                                    // src x, y
-                   texture.getWidth(), texture.getHeight(), // src w, h
+            );
 
-                   false, false                             // flip x, y
+    }
 
-                  );
+    /**
+     * Call after setting fields.
+     */
+    public void initialize ()
+    {
+        originX = 0.5f * width;
+        originY = 0.5f * height;
+    }
+
+    /**
+     * Update with physics info.
+     *
+     * Called before rendering.
+     */
+    private void update ()
+    {
+        x = body.getPosition().x - originX;
+        y = body.getPosition().y - originY;
+
+        rotation = (180.0f / (float)Math.PI) * body.getAngle() ;
     }
 
     public void reset ()

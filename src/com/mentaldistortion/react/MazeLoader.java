@@ -207,11 +207,11 @@ class MazeLoader extends DefaultHandler implements Disposable
             // item
             Item item = null;
             if (shapeInfo.type.equals("ball")) {
-                item = new Ball("ball-" + ref + "-" + id);
+                item = new Ball(id);
             } else if (shapeInfo.type.equals("goal")) {
-                item = new Goal("goal-" + ref + "-" + id);
+                item = new Goal(id);
             } else {
-                item = new Item("item-" + ref + "-" + id);
+                item = new Item(id);
             }
             item.id = id;
             item.ref = ref;
@@ -223,6 +223,7 @@ class MazeLoader extends DefaultHandler implements Disposable
             if (shapeInfo.textureId != null) {
                 item.texture = maze.textures.get(shapeInfo.textureId);
             }
+            item.initialize();
             item.reset();
 
             body.setUserData(item);
