@@ -12,4 +12,11 @@ define 'React', :layout => layout do
   project.version = VERSION_NB
   run.using :main => "com.mentaldistortion.react.ReactDesktop"
   package :jar
+
+  task :dox do
+    Dir.chdir "doc" do
+      system "doxygen"
+    end
+  end
+
 end
