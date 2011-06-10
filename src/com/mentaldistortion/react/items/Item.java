@@ -46,7 +46,7 @@ public class Item
     public Item (String name)
     {
         super(name);
-        System.out.println("created item: " + name);
+        Gdx.app.log(TAG, "created item: " + name);
     }
 
     @Override
@@ -110,4 +110,8 @@ public class Item
         body.setAngularVelocity(initialAngularVelocity);
     }
 
+    public void contacted (Item other)
+    {
+        Gdx.app.log(TAG, id + " contacted " + other.id);
+    }
 }

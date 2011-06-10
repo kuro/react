@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 import java.io.InputStream;
 import java.util.*;
+import java.util.regex.Pattern;
 
 import javax.xml.parsers.*;
 import org.xml.sax.*;
@@ -127,7 +128,7 @@ class MazeLoader extends DefaultHandler implements Disposable
             Texture tex = new Texture(Gdx.files.internal(path));
             maze.textures.put(id, tex);
         }
-        if (name.equals("box") || name.equals("ball")) {
+        if (Pattern.matches("ball|box|goal", name)) {
             ShapeInfo def = new ShapeInfo();
 
             def.id = attributes.getValue("id");
@@ -142,7 +143,7 @@ class MazeLoader extends DefaultHandler implements Disposable
                 float radius = Float.parseFloat(attributes.getValue("radius"));
                 def.shape.setRadius(radius);
                 def.width = def.height = 2.0f * radius;
-            } else if (name.equals("box")) {
+            } else if (Pattern.matches("box|goal", name)) {
                 def.shape = new PolygonShape();
 
                 Vector2 halfSize = to_vec2(attributes.getValue("size"));
@@ -150,6 +151,8 @@ class MazeLoader extends DefaultHandler implements Disposable
                 ((PolygonShape)def.shape).setAsBox(halfSize.x, halfSize.y);
                 def.width  = 2.0f * halfSize.x;
                 def.height = 2.0f * halfSize.y;
+            } else {
+                throw new RuntimeException("oops");
             }
 
             // density
@@ -180,7 +183,6 @@ class MazeLoader extends DefaultHandler implements Disposable
                 bd.type = BodyDef.BodyType.DynamicBody;
             }
 
-            /// @todo is this necessary since we are going to reset anyway?
             bd.position.set(to_vec2(attributes.getValue("pos")));
 
             Body body = world.createBody(bd);
@@ -196,10 +198,23 @@ class MazeLoader extends DefaultHandler implements Disposable
                 fd.restitution = shapeInfo.restitution;
             }
 
+            if (shapeInfo.type.equals("goal")) {
+                fd.isSensor = true;
+            }
+
             Fixture fixture = body.createFixture(fd);
 
             // item
-            Item item = new Item("item-" + ref + "-" + id);
+            Item item = null;
+            if (shapeInfo.type.equals("ball")) {
+                item = new Ball("ball-" + ref + "-" + id);
+            } else if (shapeInfo.type.equals("goal")) {
+                item = new Goal("goal-" + ref + "-" + id);
+            } else {
+                item = new Item("item-" + ref + "-" + id);
+            }
+            item.id = id;
+            item.ref = ref;
             item.body = body;
             item.fixture = fixture;
             item.width = shapeInfo.width;

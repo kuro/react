@@ -13,11 +13,13 @@
         <box id="hwall" size="0.75, 0.04" restitution="0.6" textureId="box" /> <!-- 1.5m -->
         <!-- bowling ball -->
         <ball id="ball" radius="0.109" density="1.0" textureId="ball" />
+        <goal id="goal" size="0.1, 0.1" />
     </defs>
     <scene>
         <instance id="ball" ref="ball" pos="-0.5, 1.5" />
-        <instance ref="vwall" pos="0.75, 0" />
-        <instance ref="vwall" pos="-0.75, 0" />
-        <instance ref="hwall" pos="0.0, -1.5" />
+        <instance id="right wall" ref="vwall" pos="0.75, 0" />
+        <instance id="left wall" ref="vwall" pos="-0.75, 0" />
+        <instance id="bottom wall" ref="hwall" pos="0.0, -1.5" />
+        <instance id="goal" ref="goal" pos="0.75, -1.5" />
     </scene>
 </maze>
