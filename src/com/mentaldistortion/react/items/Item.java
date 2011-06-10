@@ -34,6 +34,9 @@ public class Item
 
     public Texture texture;
 
+    boolean pressed;
+    int pointer;
+
     {
         initialPosition = new Vector2();
         initialAngle = 0.0f;
@@ -41,6 +44,8 @@ public class Item
         /// @todo undo me
         initialAngularVelocity = -1.0f;
 
+        pressed = false;
+        pointer = -1;
     }
 
     public Item (String name)
@@ -52,25 +57,50 @@ public class Item
     @Override
     public Actor hit (float x, float y)
     {
-        return null;
+        return x > 0 && y > 0 && x < width && y < height ? this : null;
     }
 
     @Override
     protected boolean touchDown (float x, float y, int pointer) 
     {
-        return false;
+        pressed = x > 0 && y > 0 && x < width && y < height;
+
+        if (pressed) {
+            parent.focus(this, pointer);
+            this.pointer = pointer;
+        }
+
+        Gdx.app.log(TAG, name + ": touch down: " + x + ", " + y);
+        return pressed;
     }
 
     @Override
     protected boolean touchDragged (float x, float y, int pointer) 
     {
-        return false;
+        if (!pressed) {
+            return false;
+        }
+
+        Gdx.app.log(TAG, name + ": touch dragged: " + x + ", " + y);
+        return pressed;
     }
 
     @Override
     protected boolean touchUp (float x, float y, int pointer) 
     {
-        return false;
+        if (!pressed) {
+            return false;
+        }
+
+        Gdx.app.log(TAG, name + ": touch up: " + x + ", " + y);
+
+        if (this.pointer == pointer) {
+            parent.focus(null, pointer);
+        }
+
+        pressed = false;
+
+        return true;
     }
 
     @Override

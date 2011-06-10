@@ -101,27 +101,64 @@ public class Maze
 
 
 //    @Override
-//    public Actor hit (float x, float y)
-//    {
-//        return null;
-//    }
-//
-//    @Override
 //    protected boolean touchDown (float x, float y, int pointer)
 //    {
-//        return false;
+//        Gdx.app.log(TAG, "down");
+//        boolean handled = super.touchDown(x, y, pointer);
+//        if (handled) {
+//            return handled;
+//        }
+//
+//        Gdx.app.log(TAG, "touch down: " + x + ", " + y);
+//        if (pointer > 0) {
+//            //return false;
+//        }
+//
+//        Actor actor = hit(x, y);
+//
+//        if (actor != null) {
+//            handled = true;
+//            Gdx.app.log(TAG, "focusing " + actor.toString());
+//            focus(actor, pointer);
+//        }
+//
+//        return handled;
 //    }
 //
 //    @Override
 //    protected boolean touchDragged (float x, float y, int pointer)
 //    {
-//        return false;
+//        Gdx.app.log(TAG, "dragged");
+//        boolean handled = super.touchDragged(x, y, pointer);
+//        if (handled) {
+//            return handled;
+//        }
+//
+//        Actor actor = focusedActor[pointer];
+//        if (actor != null) {
+//            handled = true;
+//        }
+//
+//        return handled;
 //    }
 //
 //    @Override
 //    protected boolean touchUp (float x, float y, int pointer)
 //    {
-//        return false;
+//        Gdx.app.log(TAG, "up");
+//        boolean handled = super.touchUp(x, y, pointer);
+//        if (handled) {
+//            //return handled;
+//        }
+//
+//        Actor actor = focusedActor[pointer];
+//        if (actor != null) {
+//            handled = true;
+//            Gdx.app.log(TAG, "unfocusing " + actor.toString());
+//            focus(null, pointer);
+//        }
+//
+//        return handled;
 //    }
 
     public void reset ()
