@@ -223,6 +223,10 @@ class MazeLoader extends DefaultHandler implements Disposable
             if (shapeInfo.textureId != null) {
                 item.texture = maze.textures.get(shapeInfo.textureId);
             }
+            tmp = attributes.getValue("interactive");
+            if (tmp != null && Pattern.matches("true|1", tmp)) {
+                item.interactive = true;
+            }
             item.initialize();
             item.reset();
 

@@ -16,10 +16,10 @@
         <goal id="goal" size="0.1, 0.1" />
     </defs>
     <scene>
-        <instance id="ball" ref="ball" pos="-0.5, 1.5" />
+        <instance id="ball" ref="ball" pos="-0.5, 1.5" interactive="true" />
         <instance id="right wall" ref="vwall" pos="0.75, 0" />
         <instance id="left wall" ref="vwall" pos="-0.75, 0" />
         <instance id="bottom wall" ref="hwall" pos="0.0, -1.5" />
-        <instance id="goal" ref="goal" pos="0.75, -1.5" />
+        <instance id="goal" ref="goal" pos="0.75, -1.5" interactive="true" />
     </scene>
 </maze>

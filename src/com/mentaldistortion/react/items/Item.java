@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.*;
 
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.joints.MouseJoint;
+import com.badlogic.gdx.physics.box2d.joints.MouseJointDef;
 
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.scenes.scene2d.*;
@@ -34,8 +36,15 @@ public class Item
 
     public Texture texture;
 
+    public boolean interactive;
+
     boolean pressed;
     int pointer;
+
+
+    Vector2 curPos;
+    Vector2 prevPos;
+    Vector2 deltaPos;
 
     {
         initialPosition = new Vector2();
@@ -44,8 +53,14 @@ public class Item
         /// @todo undo me
         initialAngularVelocity = -1.0f;
 
+        interactive = false;
+
         pressed = false;
         pointer = -1;
+
+        curPos = new Vector2();
+        prevPos = new Vector2();
+        deltaPos = new Vector2();
     }
 
     public Item (String name)
@@ -63,44 +78,19 @@ public class Item
     @Override
     protected boolean touchDown (float x, float y, int pointer) 
     {
-        pressed = x > 0 && y > 0 && x < width && y < height;
-
-        if (pressed) {
-            parent.focus(this, pointer);
-            this.pointer = pointer;
-        }
-
-        Gdx.app.log(TAG, name + ": touch down: " + x + ", " + y);
-        return pressed;
+        return false;
     }
 
     @Override
     protected boolean touchDragged (float x, float y, int pointer) 
     {
-        if (!pressed) {
-            return false;
-        }
-
-        Gdx.app.log(TAG, name + ": touch dragged: " + x + ", " + y);
-        return pressed;
+        return false;
     }
 
     @Override
     protected boolean touchUp (float x, float y, int pointer) 
     {
-        if (!pressed) {
-            return false;
-        }
-
-        Gdx.app.log(TAG, name + ": touch up: " + x + ", " + y);
-
-        if (this.pointer == pointer) {
-            parent.focus(null, pointer);
-        }
-
-        pressed = false;
-
-        return true;
+        return false;
     }
 
     @Override
@@ -138,6 +128,8 @@ public class Item
     {
         originX = 0.5f * width;
         originY = 0.5f * height;
+
+        touchable = interactive;
     }
 
     /**
@@ -153,9 +145,15 @@ public class Item
         rotation = (180.0f / (float)Math.PI) * body.getAngle() ;
     }
 
+    /**
+     * @todo Should this ignore interactive items, or should initial parameters
+     * be reset earlier?
+     */
     public void reset ()
     {
-        body.setTransform(initialPosition, initialAngle);
+        if (!interactive) {
+            body.setTransform(initialPosition, initialAngle);
+        }
         body.setLinearVelocity(initialLinearVelocity);
         body.setAngularVelocity(initialAngularVelocity);
     }
