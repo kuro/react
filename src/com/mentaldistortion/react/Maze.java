@@ -40,6 +40,8 @@ public class Maze
     Vector2 prevPos;
     Vector2 curPos;
 
+    boolean winnable;
+
     {
         size = new Vector2();
         currentActor = null;
@@ -164,12 +166,24 @@ public class Maze
 
     public void reset ()
     {
+        winnable = true;
+
         for (Actor child : getActors()) {
             if (child instanceof Item) {
                 Item item = (Item)child;
                 item.reset();
             }
         }
+    }
+
+    public void win ()
+    {
+        if (!winnable) {
+            return;
+        }
+        winnable = false;
+
+        Gdx.app.log(TAG, "WIN!!!");
     }
 
 }

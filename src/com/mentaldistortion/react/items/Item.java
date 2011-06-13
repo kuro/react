@@ -1,6 +1,8 @@
 
 package com.mentaldistortion.react.items;
 
+import com.mentaldistortion.react.Maze;
+
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.*;
@@ -25,6 +27,8 @@ public class Item
 
     public String id;
     public String ref;
+
+    public Maze maze;
 
     public Body body;
     public Fixture fixture;

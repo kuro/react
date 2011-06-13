@@ -1,6 +1,8 @@
 
 package com.mentaldistortion.react.items;
 
+import com.mentaldistortion.react.Maze;
+
 import com.badlogic.gdx.Gdx;
 
 public class Goal
@@ -15,6 +17,6 @@ public class Goal
 
     public void contacted (Item other)
     {
-        Gdx.app.log(TAG, "WIN!!!");
+        maze.win();
     }
 }

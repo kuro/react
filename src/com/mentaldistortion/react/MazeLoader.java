@@ -218,6 +218,7 @@ class MazeLoader extends DefaultHandler implements Disposable
             } else {
                 item = new Item(id);
             }
+            item.maze = maze;
             item.id = id;
             item.ref = ref;
             item.body = body;
