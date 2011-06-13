@@ -142,7 +142,7 @@ public class Item
         x = body.getPosition().x - originX;
         y = body.getPosition().y - originY;
 
-        rotation = (180.0f / (float)Math.PI) * body.getAngle() ;
+        rotation = (180.0f / (float)Math.PI) * body.getAngle();
     }
 
     /**

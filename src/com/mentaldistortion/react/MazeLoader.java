@@ -185,6 +185,11 @@ class MazeLoader extends DefaultHandler implements Disposable
 
             bd.position.set(to_vec2(attributes.getValue("pos")));
 
+            tmp = attributes.getValue("rot");
+            if (tmp != null) {
+                bd.angle = Float.parseFloat(tmp) * 0.0174532925f;
+            }
+
             Body body = world.createBody(bd);
 
             FixtureDef fd = new FixtureDef();
