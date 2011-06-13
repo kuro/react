@@ -14,12 +14,16 @@
         <!-- bowling ball -->
         <ball id="ball" radius="0.109" density="1.0" textureId="ball" />
         <goal id="goal" size="0.1, 0.1" />
+        <box id="ramp" size="0.02, 0.3" textureId="box" />
     </defs>
     <scene>
-        <instance id="ball" ref="ball" pos="-0.5, 1.5" interactive="true" />
+        <instance id="ball" ref="ball" pos="-0.5, 1.5" />
         <instance id="right wall" ref="vwall" pos="0.75, 0" />
         <instance id="left wall" ref="vwall" pos="-0.75, 0" />
         <instance id="bottom wall" ref="hwall" pos="0.0, -1.5" />
-        <instance id="goal" ref="goal" pos="0.75, -1.5" interactive="true" />
+        <instance id="goal" ref="goal" pos="0.75, -1.5" />
+        <instance id="ramp0" ref="ramp" pos="-0.3, 0.5" rot="60" interactive="true" />
+        <instance id="ramp1" ref="ramp" pos="0.3, 0.0" rot="-60" interactive="true" />
+        <instance id="ramp2" ref="ramp" pos="-0.3, -0.5" rot="60" interactive="true" />
     </scene>
 </maze>
