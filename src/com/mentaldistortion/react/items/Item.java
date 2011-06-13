@@ -36,6 +36,10 @@ public class Item
 
     public Texture texture;
 
+    /**
+     * @todo Does it make since to have this, since it is basically the same as
+     * touchable?
+     */
     public boolean interactive;
 
     boolean pressed;
@@ -72,6 +76,9 @@ public class Item
     @Override
     public Actor hit (float x, float y)
     {
+        if (!touchable) {
+            return null;
+        }
         return x > 0 && y > 0 && x < width && y < height ? this : null;
     }
 
