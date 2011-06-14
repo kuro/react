@@ -68,7 +68,7 @@ public class Maze
         debugRenderer = new Box2DDebugRenderer();
 
         try {
-            FileHandle hdl = Gdx.files.classpath("mazes/maze001.xml");
+            FileHandle hdl = Gdx.files.internal("mazes/maze001.xml");
             MazeLoader loader = new MazeLoader(this, world);
             loader.parse(hdl.read());
         } catch (Exception e) {
@@ -76,7 +76,7 @@ public class Maze
             throw new RuntimeException(e);
         }
 
-        winSound = Gdx.audio.newSound(Gdx.files.classpath("sfx/win.ogg"));
+        winSound = Gdx.audio.newSound(Gdx.files.internal("sfx/win.ogg"));
     }
 
     @Override
