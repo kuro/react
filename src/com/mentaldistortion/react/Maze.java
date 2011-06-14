@@ -18,6 +18,8 @@ import java.io.InputStream;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.scenes.scene2d.*;
 
+import com.badlogic.gdx.audio.*;
+
 import java.util.Map;
 import java.util.HashMap;
 
@@ -41,6 +43,8 @@ public class Maze
     Vector2 curPos;
 
     boolean winnable;
+
+    Sound winSound;
 
     {
         size = new Vector2();
@@ -71,6 +75,8 @@ public class Maze
             Gdx.app.log(TAG, "oops: ", e);
             throw new RuntimeException(e);
         }
+
+        winSound = Gdx.audio.newSound(Gdx.files.classpath("sfx/win.ogg"));
     }
 
     @Override
@@ -78,6 +84,7 @@ public class Maze
     {
         debugRenderer.dispose();
         world.dispose();
+        winSound.dispose();
     }
 
     void update (float dt)
@@ -184,6 +191,7 @@ public class Maze
         winnable = false;
 
         Gdx.app.log(TAG, "WIN!!!");
+        winSound.play();
     }
 
 }
