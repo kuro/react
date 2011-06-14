@@ -2,3 +2,8 @@
 
 *~
 .*.sw?
+
+/gen
+/bin
+
+local.properties
