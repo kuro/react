@@ -8,7 +8,7 @@ layout[:source, :main, :java] = 'src'
 layout[:source, :main, :resources] = 'assets'
 
 define 'React', :layout => layout do
-  compile.with Dir["lib/*.jar"]
+  compile.with Dir["libs/*.jar"]
   project.version = VERSION_NB
   run.using :main => "com.mentaldistortion.react.ReactDesktop"
   package :jar
