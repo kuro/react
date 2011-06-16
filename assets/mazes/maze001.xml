@@ -14,7 +14,7 @@
         <!-- bowling ball -->
         <ball id="ball" radius="0.109" density="1.0" textureId="ball" />
         <goal id="goal" size="0.1, 0.1" />
-        <box id="ramp" size="0.02, 0.3" textureId="box" />
+        <box id="ramp" size="0.07, 0.3" textureId="box" />
     </defs>
     <scene>
         <instance id="ball" ref="ball" pos="-0.5, 1.5" />
