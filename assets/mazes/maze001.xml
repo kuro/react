@@ -14,7 +14,8 @@
         <!-- bowling ball -->
         <ball id="ball" radius="0.109" density="1.0" textureId="ball" />
         <goal id="goal" size="0.1, 0.1" />
-        <box id="ramp" size="0.07, 0.3" textureId="box" />
+        <box id="ramp" size="0.06, 0.3" textureId="box" />
+        <trampoline id="trampoline" restitution="0.6" size="0.1, 0.06" />
     </defs>
     <scene>
         <instance id="ball" ref="ball" pos="-0.5, 1.5" linVel="0.2, 0" />
@@ -25,5 +26,6 @@
         <instance id="ramp0" ref="ramp" pos="-0.3, 0.5" rot="60" interactive="true" />
         <instance id="ramp1" ref="ramp" pos="0.3, 0.0" rot="-60" interactive="true" />
         <instance id="ramp2" ref="ramp" pos="-0.3, -0.5" rot="60" interactive="true" />
+        <instance id="trampoline0" ref="trampoline" pos="0.0, 0.0" rot="0" interactive="true" />
     </scene>
 </maze>

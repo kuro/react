@@ -128,7 +128,7 @@ class MazeLoader extends DefaultHandler implements Disposable
             Texture tex = new Texture(Gdx.files.internal(path));
             maze.textures.put(id, tex);
         }
-        if (Pattern.matches("ball|box|goal", name)) {
+        if (Pattern.matches("ball|box|goal|trampoline", name)) {
             ShapeInfo def = new ShapeInfo();
 
             def.id = attributes.getValue("id");
@@ -143,7 +143,7 @@ class MazeLoader extends DefaultHandler implements Disposable
                 float radius = Float.parseFloat(attributes.getValue("radius"));
                 def.shape.setRadius(radius);
                 def.width = def.height = 2.0f * radius;
-            } else if (Pattern.matches("box|goal", name)) {
+            } else if (Pattern.matches("box|goal|trampoline", name)) {
                 def.shape = new PolygonShape();
 
                 Vector2 halfSize = to_vec2(attributes.getValue("size"));
@@ -220,6 +220,8 @@ class MazeLoader extends DefaultHandler implements Disposable
                 item = new Ball(id);
             } else if (shapeInfo.type.equals("goal")) {
                 item = new Goal(id);
+            } else if (shapeInfo.type.equals("trampoline")) {
+                item = new Launcher(id);
             } else {
                 item = new Item(id);
             }
