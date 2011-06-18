@@ -164,6 +164,10 @@ public class Maze
         }
 
         if (currentActor != null) {
+            Gdx.app.log(TAG,
+                        currentActor.name +
+                        ": final position: " +
+                        ((Item)currentActor).body.getPosition());
             handled = true;
             currentActor = null;
         }
