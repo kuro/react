@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<manifest>
+    <maze title="Level 1" file="maze001.xml" />
+</manifest>

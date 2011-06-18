@@ -1,9 +1,6 @@
 <?xml version="1.0"?>
 <!-- sizes in half extents -->
 <maze size="1, 5">
-    <asset>
-        <title>Act 1</title>
-    </asset>
     <textures>
         <texture id="ball" path="ui/ball.png" />
         <texture id="box" path="ui/box.png" />

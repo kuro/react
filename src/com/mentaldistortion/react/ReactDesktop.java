@@ -5,6 +5,8 @@ import com.badlogic.gdx.Game;
 
 import com.badlogic.gdx.backends.jogl.JoglApplication;
 
+import com.mentaldistortion.react.screens.SelectScreen;
+
 public class ReactDesktop
     extends Game
 {
@@ -17,6 +19,6 @@ public class ReactDesktop
     @Override
     public void create ()
     {
-        setScreen(new React());
+        setScreen(new SelectScreen(this));
     }
 }
