@@ -241,6 +241,12 @@ class MazeLoader extends DefaultHandler implements Disposable
             if (tmp != null && Pattern.matches("true|1", tmp)) {
                 item.interactive = true;
             }
+            tmp = attributes.getValue("impulse");
+            if (tmp != null) {
+                if (item instanceof Launcher) {
+                    ((Launcher)item).impulse.set(to_vec2(tmp));
+                }
+            }
             item.initialize();
             item.reset();
 

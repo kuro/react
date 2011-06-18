@@ -11,6 +11,7 @@
     <defs>
         <box id="vwall" size="0.04, 1.5" textureId="box" />  <!-- 3m -->
         <box id="hwall" size="0.75, 0.04" restitution="0.6" textureId="box" /> <!-- 1.5m -->
+        <box id="shortWall" size="0.04, 0.2" restitution="0.6" textureId="box" />
         <!-- bowling ball -->
         <ball id="ball" radius="0.109" density="1.0" textureId="ball" />
         <goal id="goal" size="0.1, 0.1" />
@@ -18,14 +19,17 @@
         <trampoline id="trampoline" restitution="0.6" size="0.1, 0.06" />
     </defs>
     <scene>
-        <instance id="ball" ref="ball" pos="-0.5, 1.5" linVel="0.2, 0" />
+        <instance id="ball" ref="ball" pos="-0.5, 1.5" />
         <instance id="right wall" ref="vwall" pos="0.75, 0" />
         <instance id="left wall" ref="vwall" pos="-0.75, 0" />
         <instance id="bottom wall" ref="hwall" pos="0.0, -1.5" />
-        <instance id="goal" ref="goal" pos="0.75, -1.5" />
-        <instance id="ramp0" ref="ramp" pos="-0.3, 0.5" rot="60" interactive="true" />
-        <instance id="ramp1" ref="ramp" pos="0.3, 0.0" rot="-60" interactive="true" />
-        <instance id="ramp2" ref="ramp" pos="-0.3, -0.5" rot="60" interactive="true" />
-        <instance id="trampoline0" ref="trampoline" pos="0.0, 0.0" rot="0" interactive="true" />
+        <instance id="goal" ref="goal" pos="0.57, -1.35" />
+        <instance id="ramp0" ref="ramp" pos="-0.36, 1.17" rot="60" interactive="true" />
+        <instance id="ramp1" ref="ramp" pos="0.4, 0.18" rot="-60" interactive="true" />
+        <instance id="ramp2" ref="ramp" pos="0.158, 0.867" rot="60" interactive="true" />
+        <instance id="short wall" ref="shortWall" pos="0.4, -1.25" />
+        <instance id="trampoline0" ref="trampoline" pos="0.25, -1.4" rot="0" impulse="0, 0.25" interactive="true" />
+        <!--
+        -->
     </scene>
 </maze>
