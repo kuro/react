@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class React
     extends InputAdapter
-    implements ApplicationListener
+    implements Screen
 {
     final static String TAG = "React::React";
 
@@ -39,7 +39,7 @@ public class React
     }
 
     @Override
-    public void create ()
+    public void show ()
     {
         GL10 gl = Gdx.graphics.getGL10();
 
@@ -91,7 +91,7 @@ public class React
     }
 
     @Override
-    public void render ()
+    public void render (float delta)
     {
         GL10 gl = Gdx.graphics.getGL10();
 
@@ -150,6 +150,11 @@ public class React
     public void dispose ()
     {
 //        maze.dispose();
+    }
+
+    @Override
+    public void hide ()
+    {
     }
 
     @Override
