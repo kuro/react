@@ -10,7 +10,7 @@ layout[:source, :main, :resources] = 'assets'
 define 'React', :layout => layout do
   compile.with Dir["libs/*.jar"]
   project.version = VERSION_NB
-  run.using :main => "com.mentaldistortion.react.ReactDesktop"
+  run.using :main => "com.mentaldistortion.react.React"
   package :jar
 
   task :dox do
