@@ -11,10 +11,26 @@ import java.io.InputStream;
 import java.util.regex.Pattern;
 import java.util.Vector;
 
+import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.actors.*;
+
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+import com.badlogic.gdx.graphics.*;
+
 public class SelectScreen
     extends ReactScreen
 {
     final static String TAG = "React::SelectScreen";
+
+    SpriteBatch spriteBatch;
+    BitmapFont font;
+    Stage stage;
+
+    LinearGroup linearGroup;
+
+    Texture buttonTexture;
 
     class Level
     {
@@ -26,6 +42,15 @@ public class SelectScreen
             StringBuilder b = new StringBuilder();
             b.append("level " + title + " in " + file);
             return b.toString();
+        }
+    };
+
+    abstract class CustomClickListener implements Button.ClickListener
+    {
+        int index;
+        CustomClickListener (int index)
+        {
+            this.index = index;
         }
     };
 
@@ -90,9 +115,17 @@ public class SelectScreen
         super(game);
     }
 
+    void parse (InputStream input)
+        throws Exception
+    {
+        SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
+        parser.parse(input, handler);
+    }
+
     @Override
     public void show ()
     {
+        // parse manifest
         try {
             FileHandle hdl = Gdx.files.internal("mazes/manifest.xml");
             parse(hdl.read());
@@ -101,27 +134,82 @@ public class SelectScreen
             throw new RuntimeException(e);
         }
 
+        /// @todo find a better font
+        font = new BitmapFont();
+
+        spriteBatch = new SpriteBatch();
+
+        // create stage
+        stage = new Stage(Gdx.graphics.getWidth(),
+                          Gdx.graphics.getHeight(),
+                          false);
+        Gdx.input.setInputProcessor(stage);
+
+        // create layout
+        linearGroup = new LinearGroup("lin", 10, 10,
+                                      LinearGroup.LinearGroupLayout.Vertical);
+        stage.addActor(linearGroup);
+
+
+        buttonTexture = new Texture(Gdx.files.internal("ui/level.png"));
+
+        float w = buttonTexture.getWidth();
+        float h = buttonTexture.getHeight();
+
         int i = 0;
         for (Level level : levels) {
             Gdx.app.log(TAG, "" + i + ": " + level.toString());
+
+            BoundGroup group = new BoundGroup("foo", w, h);
+
+            Button button = new Button(level.title, buttonTexture);
+            group.addActor(button);
+
+            button.clickListener = new CustomClickListener(i)
+            {
+                @Override
+                public void clicked (Button button)
+                {
+                    load(index);
+                }
+            };
+
+            Label label = new Label(level.title, font);
+            label.setText(level.title);
+            label.color.set(Color.GREEN);
+            label.touchable = false;
+            group.addActor(label);
+
+            label.x = (w - label.getPrefWidth() ) * 0.5f;
+            label.y = (h - label.getPrefHeight()) * 0.5f;
+
+            linearGroup.addActor(group);
+
             i++;
         }
-    }
 
-    @Override
-    public void render (float dt)
-    {
+        // center menu
+        linearGroup.x = (Gdx.graphics.getWidth()  - w      ) * 0.5f;
+        linearGroup.y = (Gdx.graphics.getHeight() - (h * i)) * 0.5f;
     }
 
     @Override
     public void hide ()
     {
+        spriteBatch.dispose();
     }
 
-    void parse (InputStream input)
-        throws Exception
+    @Override
+    public void render (float dt)
     {
-        SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
-        parser.parse(input, handler);
+        GL10 gl = Gdx.graphics.getGL10();
+        gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+        stage.draw();
     }
+
+    void load (int index)
+    {
+        Gdx.app.log(TAG, "load " + index);
+    }
+
 }

@@ -1,4 +1,6 @@
 <?xml version="1.0"?>
 <manifest>
     <maze title="Level 1" file="maze001.xml" />
+    <maze title="Level 2" file="maze002.xml" />
+    <maze title="Level 3" file="maze003.xml" />
 </manifest>
