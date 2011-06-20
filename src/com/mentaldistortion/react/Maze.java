@@ -55,7 +55,7 @@ public class Maze
         curPos = new Vector2();
     }
 
-    Maze ()
+    public Maze (String file)
     {
         super("Maze");
 
@@ -68,7 +68,7 @@ public class Maze
         debugRenderer = new Box2DDebugRenderer();
 
         try {
-            FileHandle hdl = Gdx.files.internal("mazes/maze001.xml");
+            FileHandle hdl = Gdx.files.internal("mazes/" + file);
             MazeLoader loader = new MazeLoader(this, world);
             loader.parse(hdl.read());
         } catch (Exception e) {
@@ -79,6 +79,11 @@ public class Maze
         winSound = Gdx.audio.newSound(Gdx.files.internal("sfx/win.ogg"));
     }
 
+    public Vector2 size ()
+    {
+        return size;
+    }
+
     @Override
     public void dispose ()
     {
@@ -87,7 +92,7 @@ public class Maze
         winSound.dispose();
     }
 
-    void update (float dt)
+    public void update (float dt)
     {
         world.step(dt, 3, 3);
         world.clearForces();

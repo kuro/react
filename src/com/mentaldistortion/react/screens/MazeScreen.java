@@ -1,4 +1,6 @@
-package com.mentaldistortion.react;
+package com.mentaldistortion.react.screens;
+
+import com.mentaldistortion.react.Maze;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
@@ -8,11 +10,12 @@ import com.badlogic.gdx.scenes.scene2d.actors.*;
 
 import com.badlogic.gdx.math.Vector2;
 
-public class React
-    extends InputAdapter
-    implements Screen
+public class MazeScreen
+    extends ReactScreen
 {
-    final static String TAG = "React::React";
+    final static String TAG = "MazeScreen::MazeScreen";
+
+    String file;
 
     FPSLogger fpsLogger;
 
@@ -29,6 +32,12 @@ public class React
     {
         dt = 1.0f / 60.0f;
         prevWorldPos = null;
+    }
+
+    public MazeScreen (Game game, String file)
+    {
+        super(game);
+        this.file = file;
     }
 
     static float expMovAvg (float avg, float newValue, float n)
@@ -83,7 +92,7 @@ public class React
         Gdx.app.log(TAG, playButton.toString());
 
         // maze
-        maze = new Maze();
+        maze = new Maze(file);
         stage.addActor(maze);
 
         fpsLogger = new FPSLogger();
@@ -119,8 +128,8 @@ public class React
 
         // stage
         float aspect = ((float)h) / ((float)w);
-        stage.setViewport(maze.size.x * 2.0f,
-                          maze.size.x * 2.0f * aspect,
+        stage.setViewport(maze.size().x * 2.0f,
+                          maze.size().x * 2.0f * aspect,
                           false);
 
         /// @bug is there a better way to fix the camera position?
@@ -137,24 +146,9 @@ public class React
     }
 
     @Override
-    public void pause ()
-    {
-    }
-
-    @Override
-    public void resume ()
-    {
-    }
-
-    @Override
-    public void dispose ()
-    {
-//        maze.dispose();
-    }
-
-    @Override
     public void hide ()
     {
+//        maze.dispose();
     }
 
     @Override
@@ -200,6 +194,17 @@ public class React
             prevWorldPos = null;
             return true;
         }
+    }
+
+    @Override
+    public boolean keyDown (int keyCode)
+    {
+        switch (keyCode)
+        {
+        case Input.Keys.BACK:
+            game.setScreen(new SelectScreen(game));
+        }
+        return false;
     }
 
 }

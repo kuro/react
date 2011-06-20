@@ -196,7 +196,10 @@ public class SelectScreen
     @Override
     public void hide ()
     {
+        stage.dispose();
         spriteBatch.dispose();
+        font.dispose();
+        buttonTexture.dispose();
     }
 
     @Override
@@ -209,7 +212,8 @@ public class SelectScreen
 
     void load (int index)
     {
-        Gdx.app.log(TAG, "load " + index);
+        Level level = levels.elementAt(index);
+        game.setScreen(new MazeScreen(game, level.file));
     }
 
 }
