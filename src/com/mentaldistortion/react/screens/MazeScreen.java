@@ -201,10 +201,13 @@ public class MazeScreen
     {
         switch (keyCode)
         {
+        case Input.Keys.ESCAPE:
         case Input.Keys.BACK:
             game.setScreen(new SelectScreen(game));
+            return true;
+        default:
+            return false;
         }
-        return false;
     }
 
 }

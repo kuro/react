@@ -143,7 +143,6 @@ public class SelectScreen
         stage = new Stage(Gdx.graphics.getWidth(),
                           Gdx.graphics.getHeight(),
                           false);
-        Gdx.input.setInputProcessor(stage);
 
         // create layout
         linearGroup = new LinearGroup("lin", 10, 10,
@@ -191,6 +190,13 @@ public class SelectScreen
         // center menu
         linearGroup.x = (Gdx.graphics.getWidth()  - w      ) * 0.5f;
         linearGroup.y = (Gdx.graphics.getHeight() - (h * i)) * 0.5f;
+
+        // input
+        InputMultiplexer inputMultiplexer = new InputMultiplexer();
+        Gdx.input.setInputProcessor(inputMultiplexer);
+
+        inputMultiplexer.addProcessor(stage);
+        inputMultiplexer.addProcessor(this);
     }
 
     @Override
@@ -214,6 +220,22 @@ public class SelectScreen
     {
         Level level = levels.elementAt(index);
         game.setScreen(new MazeScreen(game, level.file));
+    }
+
+    @Override
+    public boolean keyDown (int keyCode)
+    {
+        switch (keyCode)
+        {
+        case Input.Keys.ESCAPE:
+        case Input.Keys.BACK:
+            if (Gdx.app.getType() == Application.ApplicationType.Android) {
+                Gdx.app.exit();
+            }
+            return true;
+        default:
+            return false;
+        }
     }
 
 }

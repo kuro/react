@@ -36,4 +36,13 @@ class ContactListener
     public void endContact (Contact contact)
     {
     }
+
+    public void preSolve(Contact contact, Manifold oldManifold)
+    {
+    }
+
+    public void postSolve(Contact contact, ContactImpulse impulse)
+    {
+    }
+
 }
