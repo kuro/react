@@ -6,6 +6,7 @@ import com.badlogic.gdx.Game;
 //import com.badlogic.gdx.backends.jogl.JoglApplication;
 
 import com.mentaldistortion.react.screens.SelectScreen;
+import com.badlogic.gdx.Gdx;
 
 public class React
     extends Game
@@ -19,6 +20,7 @@ public class React
     @Override
     public void create ()
     {
+        Gdx.input.setCatchBackKey(true);
         setScreen(new SelectScreen(this));
     }
 }
