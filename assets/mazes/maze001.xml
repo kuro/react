@@ -5,6 +5,7 @@
         <texture id="ball" path="ui/ball.png" />
         <texture id="box" path="ui/box.png" />
         <texture id="goal" path="ui/goal.png" />
+        <texture id="trampoline" path="ui/trampoline.png" />
     </textures>
     <defs>
         <box id="vwall" size="0.04, 1.5" textureId="box" />  <!-- 3m -->
@@ -14,7 +15,7 @@
         <ball id="ball" radius="0.109" density="1.0" textureId="ball" />
         <goal id="goal" radius="0.1" textureId="goal" />
         <box id="ramp" size="0.06, 0.3" textureId="box" />
-        <trampoline id="trampoline" restitution="0.6" size="0.1, 0.06" />
+        <trampoline id="trampoline" restitution="0.6" size="0.1, 0.1" textureId="trampoline" />
     </defs>
     <scene>
         <instance id="right wall" ref="vwall" pos="0.75, 0" />
