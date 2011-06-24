@@ -213,4 +213,14 @@ public class MazeScreen
         }
     }
 
+    @Override
+    public boolean keyTyped (char character)
+    {
+        if (character == ' ') {
+            maze.reset();
+            return true;
+        }
+        return false;
+    }
+
 }
