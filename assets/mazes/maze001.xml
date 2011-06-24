@@ -4,6 +4,7 @@
     <textures>
         <texture id="ball" path="ui/ball.png" />
         <texture id="box" path="ui/box.png" />
+        <texture id="goal" path="ui/goal.png" />
     </textures>
     <defs>
         <box id="vwall" size="0.04, 1.5" textureId="box" />  <!-- 3m -->
@@ -11,12 +12,11 @@
         <box id="shortWall" size="0.04, 0.2" restitution="0.6" textureId="box" />
         <!-- bowling ball -->
         <ball id="ball" radius="0.109" density="1.0" textureId="ball" />
-        <goal id="goal" size="0.1, 0.1" />
+        <goal id="goal" radius="0.1" textureId="goal" />
         <box id="ramp" size="0.06, 0.3" textureId="box" />
         <trampoline id="trampoline" restitution="0.6" size="0.1, 0.06" />
     </defs>
     <scene>
-        <instance id="ball" ref="ball" pos="-0.5, 1.5" />
         <instance id="right wall" ref="vwall" pos="0.75, 0" />
         <instance id="left wall" ref="vwall" pos="-0.75, 0" />
         <instance id="bottom wall" ref="hwall" pos="0.0, -1.5" />
@@ -26,7 +26,6 @@
         <instance id="ramp2" ref="ramp" pos="0.158, 0.867" rot="60" interactive="true" />
         <instance id="short wall" ref="shortWall" pos="0.4, -1.25" />
         <instance id="trampoline0" ref="trampoline" pos="0.25, -1.4" rot="0" impulse="0, 0.25" interactive="true" />
-        <!--
-        -->
+        <instance id="ball" ref="ball" pos="-0.5, 1.5" />
     </scene>
 </maze>

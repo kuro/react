@@ -136,14 +136,14 @@ class MazeLoader extends DefaultHandler implements Disposable
 
             def.textureId = attributes.getValue("textureId");
 
-            if (name.equals("ball")) {
+            if (Pattern.matches("ball|goal", name)) {
                 def.shape = new CircleShape();
 
                 // radius
                 float radius = Float.parseFloat(attributes.getValue("radius"));
                 def.shape.setRadius(radius);
                 def.width = def.height = 2.0f * radius;
-            } else if (Pattern.matches("box|goal|trampoline", name)) {
+            } else if (Pattern.matches("box|trampoline", name)) {
                 def.shape = new PolygonShape();
 
                 Vector2 halfSize = to_vec2(attributes.getValue("size"));
