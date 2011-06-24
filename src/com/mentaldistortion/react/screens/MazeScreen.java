@@ -24,6 +24,7 @@ public class MazeScreen
 
     Stage ui;
     Group topBar;
+    Button playButton;
 
     float dt;
 
@@ -76,7 +77,7 @@ public class MazeScreen
         inputMultiplexer.addProcessor(this);
 
         // button
-        Button playButton = new Button(
+        playButton = new Button(
             "playButton",
             new Texture(Gdx.files.internal("ui/play.png"))
             );
@@ -89,7 +90,6 @@ public class MazeScreen
             }
         };
         topBar.addActor(playButton);
-        Gdx.app.log(TAG, playButton.toString());
 
         // maze
         maze = new Maze(file);
@@ -142,7 +142,10 @@ public class MazeScreen
         // position bars
         /// @bug find a way around the hard coded values
         topBar.height = 64;
+        topBar.width = w;
         topBar.y = h - topBar.height;
+
+        playButton.x = topBar.width - playButton.width;
     }
 
     @Override
