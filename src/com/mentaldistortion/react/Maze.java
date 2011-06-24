@@ -190,6 +190,8 @@ public class Maze
                 item.reset();
             }
         }
+
+        world.setGravity(new Vector2(0.0f, -9.8f));
     }
 
     public void win ()

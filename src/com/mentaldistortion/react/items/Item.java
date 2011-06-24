@@ -58,8 +58,6 @@ public class Item
         initialPosition = new Vector2();
         initialAngle = 0.0f;
         initialLinearVelocity = new Vector2(0.0f, 0.0f);
-        /// @todo undo me
-        initialAngularVelocity = -1.0f;
 
         interactive = false;
 

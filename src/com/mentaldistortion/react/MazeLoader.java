@@ -254,6 +254,8 @@ class MazeLoader extends DefaultHandler implements Disposable
             fixture.setUserData(item);
 
             maze.addActor(item);
+
+            world.setGravity(new Vector2(0.0f, 0.0f));
         }
     }
 
