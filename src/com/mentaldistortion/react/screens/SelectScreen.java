@@ -173,7 +173,7 @@ public class SelectScreen
 
             Label label = new Label(level.title, font);
             label.setText(level.title);
-            label.color.set(Color.GREEN);
+            label.color.set(Color.BLACK);
             label.touchable = false;
             group.addActor(label);
 
