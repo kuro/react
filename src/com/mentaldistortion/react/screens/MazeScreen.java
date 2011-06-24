@@ -116,7 +116,7 @@ public class MazeScreen
         ui.act(dt);
         ui.draw();
 
-        fpsLogger.log();
+        //fpsLogger.log();
     }
 
     @Override

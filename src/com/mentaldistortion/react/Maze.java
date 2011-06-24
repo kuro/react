@@ -201,7 +201,6 @@ public class Maze
         }
         winnable = false;
 
-        Gdx.app.log(TAG, "WIN!!!");
         winSound.play();
     }
 

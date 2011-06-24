@@ -72,7 +72,6 @@ public class Item
     public Item (String name)
     {
         super(name);
-        Gdx.app.log(TAG, "created item: " + name);
     }
 
     @Override
@@ -169,6 +168,6 @@ public class Item
 
     public void contacted (Item other)
     {
-        Gdx.app.log(TAG, id + " contacted " + other.id);
+//        Gdx.app.log(TAG, id + " contacted " + other.id);
     }
 }

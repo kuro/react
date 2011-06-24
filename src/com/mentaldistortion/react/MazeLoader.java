@@ -274,10 +274,10 @@ class MazeLoader extends DefaultHandler implements Disposable
         super.endElement(uri, localName, name);
         builder.setLength(0);
 
-        if (name.equals("title")) {
-            String title = builder.toString();
-            Gdx.app.log(TAG, "title: " + title);
-        }
+//        if (name.equals("title")) {
+//            String title = builder.toString();
+//            Gdx.app.log(TAG, "title: " + title);
+//        }
     }
 
 }

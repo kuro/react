@@ -157,8 +157,6 @@ public class SelectScreen
 
         int i = 0;
         for (Level level : levels) {
-            Gdx.app.log(TAG, "" + i + ": " + level.toString());
-
             BoundGroup group = new BoundGroup("foo", w, h);
 
             Button button = new Button(level.title, buttonTexture);
